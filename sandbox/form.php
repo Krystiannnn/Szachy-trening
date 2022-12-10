@@ -8,7 +8,26 @@
     <link rel="stylesheet" href="form.css">
 </head>
 <body onload="prepareBoard()">
+   
     <div id="grid-container">
+    <?php
+    for ( $i=8; $i >= 1 ; $i--)
+    {
+        for ($j=65; $j <= 72 ; $j++) {
+            $id = chr($j).$i;
+            if( ($i + $j) % 2 )
+               $class = "black";
+            else
+               $class = "white";    
+            echo "<div id=\"$id\" class=\"$class\">";
+            echo "</div>"; 
+
+        }
+
+    }
+
+
+    ?>
     </div>    
     <form action="form.php" id="moveForm" method="POST">
        <input type="hidden" name="source" id="source">
@@ -32,21 +51,16 @@
 
     ?>
     <script>
+      
        function prepareBoard() // szachownica
        {
            let container = document.getElementById('grid-container');
-           for (let i = 8 ; i >= 1 ; i--){ //wiersze
-               for (let j = 65 ; j <= 72 ; j++) { //kolumny
-                   let field = document.createElement('div');
-                   field.id = String.fromCharCode(j) + i;
-                   if((i + j) % 2 == 0)
-                      field.style.backgroundColor = "black";
-                      field.addEventListener("click", fieldClick)
-                   container.appendChild(field); 
-               }
-           }
+           container.childNodes.forEach(function(element){
+              element.addEventListener("click", fieldClick);
+       });
 
        }
+       
         function fieldClick(e) {
             let source = document.getElementById('source');
             let target = document.getElementById('target');
